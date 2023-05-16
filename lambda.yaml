@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  pLambdaFnName:
+    Type: String
+    Description: Valid Lambda Function Name
+  pZipFilepath:
+    Type: String
+    Description: Zip file path ex-"lambda/backend.zip"
+  pBucketName:
+    Type: String
+    Description: S3 Bucket Name where code zip is uploaded
+Resources:
+  IAMRolee:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: drs-automation-lambda-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+  IAMPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: drs-recovery-policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'drs:DescribeRecoverySnapshots'
+              - 'drs:DescribeSourceServers'
+              - 'drs:InitializeService'
+              - 'drs:GetLaunchConfiguration'
+              - 'drs:StartRecovery'
+              - 'drs:DescribeRecoveryInstances'
+              - 'drs:DescribeJobs'
+              - 'drs:StartReplication'
+              - 'drs:StopReplication'
+              - 'drs:StartFailbackLaunch'
+            Resource: '*'
+      Roles:
+        - !Ref IAMRolee
+  LambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Ref pLambdaFnName
+      Description: AWS DRS Automation
+      Runtime: python3.9
+      Code:
+        S3Bucket: !Ref pBucketName
+        S3Key: !Ref pZipFilepath
+      Handler: lambda_function.lambda_handler
+      MemorySize: 128
+      Timeout: 120
+      Role:
+        'Fn::GetAtt':
+          - IAMRolee
+          - Arn
