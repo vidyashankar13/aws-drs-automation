@@ -2,7 +2,7 @@
 ##  Restore EC2 instances via AWS DRS automatically using AWS Lambda
 
 
-  <img src = "https://github.com/vidyashankar13/aws-drs-automation/assets/50440333/11d069fa-1dcb-4dd6-904b-cea8824aeb53" width=750 height=550>
+  <img src = "https://github.com/vidyashankar13/aws-drs-automation/assets/50440333/11d069fa-1dcb-4dd6-904b-cea8824aeb53" width=750 height=500>
 
 This automtion was created to automate recovery of Ec2's or On-Prem VM's(which are registered in AWS DRS) to AWS . We have adehered best practices of Lambda + AWS DRS services. 
 
