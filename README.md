@@ -47,7 +47,7 @@ This utility is to automatize recovery of EC2's or On-Prem VM's(which are regist
   4. You can invocate your lambda in multiple ways, visit [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html)
 ---
 ## Parmeters used in CFT
-1. pLambdaFnName - Valid Name of the Lambda function
+1. pLambdaFnName - Valid name of the Lambda function
 2. pBucketName - S3 bucket name where lambda deployment (.zip) file is uploaded
 3. pZipFilepath - Exact path of lambda deployment (.zip) file is uploaded (ex:lambda/backend.zip )
 
