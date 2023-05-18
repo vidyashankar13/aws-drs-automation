@@ -2,15 +2,15 @@
 ##  Restore EC2 instances via AWS DRS automatically using AWS Lambda
 
 
-  <img src = "https://github.com/vidyashankar13/aws-drs-automation/assets/50440333/11d069fa-1dcb-4dd6-904b-cea8824aeb53" width=750 height=500>
+  <img src = "https://github.com/vidyashankar13/aws-drs-automation/assets/50440333/68b3c9a2-4dd9-468b-9a0c-8ae534d36a09" width=750 height=500>
 
-This automtion was created to automate recovery of Ec2's or On-Prem VM's(which are registered in AWS DRS) to AWS . We have adehered best practices of Lambda + AWS DRS services. 
 
+This utility is to automatize recovery of EC2's or On-Prem VM's(which are registered in AWS DRS) to AWS . We have adhered to best practices of AWS Lambda + AWS DRS services. 
 
 ---
 ## Use Cases:
-1. Automate recovery of applications hosted in Ec2 during an event of Disaster.
-2. Perform DR drill of applcaitions.
+1. Automate recovery of applications hosted in Ec2 during an event of disaster. (Recovery can be Point-In-time or Latest)
+2. Perform DR drills of applications
 ---
 ## Prerequisites
 1. AWS DRS agent installed and configured in your EC2 or VM,visit [Source server registrtion](https://docs.aws.amazon.com/drs/latest/userguide/agent-installation.html)
@@ -19,11 +19,15 @@ This automtion was created to automate recovery of Ec2's or On-Prem VM's(which a
 4. S3 bucket 
 ---
 
-## Process Overview
-1. This Repo uses CloudFormation template to launch the resources in AWS.Below are the services launched by CFT
-      - AWS Lambda with Python 3.9 Runtime (Used to call AWS DRS API's) uses Boto3 
-      - IAM Role required to restore servers using AWS DRS
-2. Event to be passed to AWS Lambda:
+##  Overview
+1. This repository uses CloudFormation template to launch the resources in AWS.Below are the services launched by CFT
+      - AWS Lambda with Python 3.9 Runtime.
+      - IAM Role with IAM policy required to restore servers using AWS DRS
+2. Lambda function uses Boto3 to make AWS DRS API calls to perform recovery opertaions.
+ # How To Guide:
+  1. Upload drs-repl.zip to an S3 bucket and note the path
+  2. Create a CloudFormation Stack using the lambda.yaml template
+  3. Event to be passed to AWS Lambda:
       - For Point In Time Recovery (use Snapshot ID):
          ```
           {
@@ -40,11 +44,7 @@ This automtion was created to automate recovery of Ec2's or On-Prem VM's(which a
               "Snapshot_Id": ""
            }
            ``` 
----
- # How To Guide:
-  1. Upload drs-repl.zip to an S3 bucket and note the path.
-  2. Create a CloudFormation Stack using the lambda.yaml template
-  3. You can invocate your lambda in multiple ways, visit [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html)
+  4. You can invocate your lambda in multiple ways, visit [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html)
 ---
 ## Parmeters used in CFT
 1. pLambdaFnName - Valid Name of the Lambda function
